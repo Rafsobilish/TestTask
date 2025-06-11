@@ -21,8 +21,17 @@ export default function AddProducts() {
   const [phone, setPhone] = useState("");
 
   useEffect(() => {
-    const cart = getCart();
-    setCartItems(Object.values(cart));
+    const handleStorageChange = () => {
+      const cart = getCart();
+      setCartItems(Object.values(cart));
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    handleStorageChange();
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
 
   const cartPost = useMutation({

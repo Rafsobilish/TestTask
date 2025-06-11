@@ -36,10 +36,9 @@ export default function ProductCard({ product }: { product: Product }) {
     }
   }, [product.id]);
 
-  // Обновление количества и синхронизация с локалсторейдж
   const updateAmount = (nextAmount: number) => {
     if (nextAmount < 0) nextAmount = 0;
-    if (nextAmount > 999) nextAmount = 999; // ограничим максимальное значение
+    if (nextAmount > 999) nextAmount = 999;
 
     const cart = getCart();
 
@@ -56,11 +55,11 @@ export default function ProductCard({ product }: { product: Product }) {
 
     setCart(cart);
     setAmount(nextAmount);
+    window.dispatchEvent(new Event("storage"));
   };
 
-  // Обработка ввода в поле
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value.replace(/\D/g, ""); // только цифры
+    const val = e.target.value.replace(/\D/g, "");
     const num = val === "" ? 0 : parseInt(val, 10);
     updateAmount(num);
   };
